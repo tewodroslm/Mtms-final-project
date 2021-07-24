@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Passport\HasApiTokens;
+use App\Models\User;
 
-class Driver extends Model
+class Driver extends User
 {
-    use HasFactory;
+    use HasApiTokens, HasFactory;
 
     protected $fillable = [
         'name',
@@ -17,5 +19,10 @@ class Driver extends Model
         'car_owner',
         'password',
     ];
+
+    public function getAuthPassword()
+    {
+     return $this->password;
+    }
 
 }
