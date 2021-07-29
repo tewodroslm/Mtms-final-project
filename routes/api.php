@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\DriverController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,10 @@ Route::post("/login-driver", [AuthController::class, 'loginDriver']);
 Route::middleware('auth:api')->group(function (){
     // Route::get("/register", [Api\AuthController::class, 'register']);
 });  
+
+Route::middleware('auth:api-drivers')->group(function (){
+    Route::get("/testDriver", [DriverController::class, 'testDriver']);
+    Route::post("/get-ticket", [DriverController::class, 'buyTicket']);
+});
+
+
