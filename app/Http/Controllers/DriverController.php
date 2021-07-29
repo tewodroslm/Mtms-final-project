@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\Driver;
+use App\Models\Ticket;
+use App\Models\Payment;
 
 class DriverController extends Controller
 {
@@ -19,17 +22,18 @@ class DriverController extends Controller
     }
 
     
-    
+    ## validating the cnaceled boolean is creating an issue
+
     public function buyTicket(Request $request){
         
-        $driver = $request->user();
+        //$driver = $request->user();
         
         $validate = $request->validate([ 
-            'starting_point' => 'string',
-            'destination' => 'string',
-            'amount' => 'integer',
-            'driver_id' => 'integer',
-            'cancled' => 'boolean'
+            'starting_point' => 'required|string',
+            'destination' => 'required|string',
+            'amount' => 'required',
+            'driver_id' => 'required|integer',
+            'canceled' => 'required'
         ]);
 
         $ticket = Ticket::create($validate);
@@ -45,11 +49,33 @@ class DriverController extends Controller
 
         # retrieve the ticket using #id from $request
         # update cancelTicket to True
+
+        $ticket = DB::table('tickets')
+              ->where('id', $request->ticket_id)
+              ->update(['canceled' => 1]);
         
+        // $ticket = Ticket::where('id', $request->ticket_id)->update(['canceled' => True]);
+
+        return response([
+            'Message' => 'Ticket updated successfully',
+            'Ticket' => $ticket,
+        ]);
+
     }
 
     public function payFine(Request $request){
+        
+        $validate = $request->validate([  
+            'amount' => 'integer',
+            'driver_id' => 'integer',
+        ]);
+        
+        $payment = Payment::create($validate);
 
+        return response([
+            "Message" => "Successfuly paid",
+            "Payment" => $payment,
+        ]);
     }
 
 }

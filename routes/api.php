@@ -30,6 +30,8 @@ Route::middleware('auth:api')->group(function (){
 Route::middleware('auth:api-drivers')->group(function (){
     Route::get("/testDriver", [DriverController::class, 'testDriver']);
     Route::post("/get-ticket", [DriverController::class, 'buyTicket']);
+    Route::post("/cancel-ticket", [DriverController::class, 'cancelTicket']);
+    Route::post("/pay-fine", [DriverController::class, 'payFine']);
 });
 
 
