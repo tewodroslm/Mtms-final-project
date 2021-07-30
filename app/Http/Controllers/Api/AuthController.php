@@ -57,7 +57,7 @@ class AuthController extends Controller
 
         $admin = auth()->user(); 
 
-        $token = $admin->createToken('authToken')->accessToken;
+        $token = $admin->createToken('authToken', ['add-traffic-police', 'add-menhariya-officer'])->accessToken;
 
         return response()->json([
             'token' => $token,
@@ -121,7 +121,7 @@ class AuthController extends Controller
 
      public function loginTraffic(Request $request){
         $validate = $request->validate([
-            'traffic_id' => 'required|string',
+            'traffic_id' => 'required|integer',
             'password' => 'required'
         ]);
  

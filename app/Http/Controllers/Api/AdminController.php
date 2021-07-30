@@ -16,7 +16,7 @@ class AdminController extends Controller
         
         $validate = $request->validate([ 
             'name' => 'required|string',
-            'traffic_id' => 'required|string',
+            'traffic_id' => 'required|integer|unique:traffic_police',
             'working_route' => 'string',  
             'password' => 'required|min:4|confirmed'
         ]);
