@@ -40,7 +40,8 @@ Route::middleware('auth:api-drivers')->group(function (){
 // Done by Traffic police
 Route::middleware("auth:api-police")->group(function(){
     Route::get("/testPolice", [TPoliceController::class, 'testPolice']);
-
+    Route::post("/check-driver", [TPoliceController::class, 'checkDriver']);
+    Route::post("/fine-driver", [TPoliceController::class, 'fineDriver']);
 
 });
 

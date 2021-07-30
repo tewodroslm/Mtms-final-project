@@ -13,4 +13,6 @@ class Fine extends Model
         'amount',
     ];
 
+    
+
 }
