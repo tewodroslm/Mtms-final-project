@@ -20,13 +20,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post("/add-admin", [AuthController::class, 'addAdmin']);
+Route::post("/login-admin", [AuthController::class, 'adminLogin']);
+
 Route::post("/register-driver", [AuthController::class, 'registerDriver']);
 Route::post("/login-driver", [AuthController::class, 'loginDriver']);
 
-Route::middleware('auth:api')->group(function (){
-    // Route::get("/register", [Api\AuthController::class, 'register']);
-});  
-
+// Done by driver
 Route::middleware('auth:api-drivers')->group(function (){
     Route::get("/testDriver", [DriverController::class, 'testDriver']);
     Route::post("/get-ticket", [DriverController::class, 'buyTicket']);
@@ -34,4 +34,16 @@ Route::middleware('auth:api-drivers')->group(function (){
     Route::post("/pay-fine", [DriverController::class, 'payFine']);
 });
 
+// Done by Traffic police
+Route::middleware("auth:api-police")->group(function(){
+    Route::get("/testPolice", [TPoliceController::class, 'testPolice']);
+});
+
+
+// Done by admin
+
+Route::middleware('auth:api')->group(function (){
+    // Route::get("/register", [Api\AuthController::class, 'register']);
+    Route::post("/register-trafficpolice", [AdminController::class, 'registerTrafficPolice']);
+});  
 

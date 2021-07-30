@@ -7,10 +7,64 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request; 
 use App\Models\Driver;
+use App\Models\TrafficPolice;
+use App\Models\User;
+use App\Models\Admin;
 
 class AuthController extends Controller
 {
     
+     // Add admin (uses the User model for auth and other stuff)
+    public function addAdmin(Request $request){
+
+        $validated = $request->validate([
+            'name' => 'string',
+            'email' => 'email|required',
+            'password' => 'required|min:6|confirmed'
+        ]);
+
+        $validated['password'] = bcrypt($request->password);
+
+        $userCreate = User::create($validated);
+
+        $valAdmin= $request->validate([
+            'name' => 'string',
+            'email' => 'email|required'
+        ]);
+
+        $admin = Admin::create($valAdmin); 
+
+        $accessToken = $userCreate->createToken('authToken')->accessToken;
+
+        return response()->json([
+            'Admin'=>$admin,
+            'access_token' => $accessToken
+        ]);
+
+    }
+
+     // Logging in admin
+
+    public function adminLogin(Request $request){
+        $cred = $validatedData = $request->validate([
+            'email' => 'email|required',
+            'password' => 'required'
+        ]);
+     
+        if( !auth()->attempt($cred)){
+            return response(['message'=>'Invalid credentials']);
+        }
+
+        $admin = auth()->user(); 
+
+        $token = $admin->createToken('authToken')->accessToken;
+
+        return response()->json([
+            'token' => $token,
+            'Admin' => $admin, 
+        ]);
+    }
+
     // Register driver
     public function registerDriver(Request $request){
 
@@ -61,4 +115,30 @@ class AuthController extends Controller
         ]);
     }
 
+
+    
+    //  Traffic police login
+
+     public function loginTraffic(Request $request){
+        $validate = $request->validate([
+            'traffic_id' => 'required|string',
+            'password' => 'required'
+        ]);
+ 
+        $traffic = TrafficPolice::where('traffic_id', $request->traffic_id)->first();
+
+        if (!Hash::check($request->password, $traffic->password)){
+
+            return response(['error' => 'Invalid credentials']);
+        }
+
+        $accessToken = $traffic->createToken('authToken')->accessToken;
+
+        return response([
+            'Traffic' => $traffic, 
+            'access_token' => $accessToken
+        ]);
+    }
+
 }
+

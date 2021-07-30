@@ -52,9 +52,7 @@ class DriverController extends Controller
 
         $ticket = DB::table('tickets')
               ->where('id', $request->ticket_id)
-              ->update(['canceled' => 1]);
-        
-        // $ticket = Ticket::where('id', $request->ticket_id)->update(['canceled' => True]);
+              ->update(['canceled' => 1]); 
 
         return response([
             'Message' => 'Ticket updated successfully',

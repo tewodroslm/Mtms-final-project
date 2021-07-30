@@ -51,6 +51,11 @@ return [
             'driver' => 'passport',
             'provider' => 'drivers'
         ],
+        
+        'api-police' => [
+            'driver' => 'passport',
+            'provider' => 'polices'
+        ],
     ],
 
     /*
@@ -79,6 +84,11 @@ return [
         'drivers' => [
             'driver' => 'eloquent',
             'model' => App\Models\Driver::class,
+        ],
+
+        'polices' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\TrafficPolice::class,
         ],
 
         // 'users' => [
