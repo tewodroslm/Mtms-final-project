@@ -45,5 +45,6 @@ Route::middleware("auth:api-police")->group(function(){
 Route::middleware('auth:api')->group(function (){
     // Route::get("/register", [Api\AuthController::class, 'register']);
     Route::post("/register-trafficpolice", [AdminController::class, 'registerTrafficPolice']);
+    Route::post("/register-menhariyaOfficer", [AdminController::class, 'registerMenhariyaOfficer']);
 });  
 
