@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Driver;
 use App\Models\Ticket;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Validator;
 
 class DriverController extends Controller
 {
@@ -28,14 +29,18 @@ class DriverController extends Controller
         
         //$driver = $request->user();
         
-        $validate = $request->validate([ 
+        $validate = Validator::make($request->all(), [ 
             'starting_point' => 'required|string',
             'destination' => 'required|string',
             'amount' => 'required',
             'driver_id' => 'required|integer',
             'canceled' => 'required'
         ]);
-
+        
+        if ($validate->fails()) {
+            return response()->json(['Error'=>"Error has occured during validation"]);
+        }
+        
         $ticket = Ticket::create($validate);
 
         return response([

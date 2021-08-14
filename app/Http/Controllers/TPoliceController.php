@@ -37,8 +37,7 @@ class TPoliceController extends Controller
 
         $validate = $request->validate([ 
             'reason' => 'required|string',
-            'driver_id' => 'required|integer',            
-            'driver_account_number' => 'integer',
+            'driver_id' => 'required|integer',       
             'amount' => 'integer|required',
             'location' => 'string',
         ]);
