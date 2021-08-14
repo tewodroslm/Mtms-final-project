@@ -14,7 +14,8 @@ class Fine extends Model
         'reason',
         'amount',
         'driver_id',
-        'location'
+        'location',
+        'traffic_police_id'
     ];
 
     public function driver(){

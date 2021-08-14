@@ -60,7 +60,7 @@ class DriverController extends Controller
               ->update(['canceled' => 1]); 
 
         return response([
-            'Message' => 'Ticket updated successfully',
+            'Message' => 'Ticket canceled successfully',
             'Ticket' => $ticket,
         ]);
 

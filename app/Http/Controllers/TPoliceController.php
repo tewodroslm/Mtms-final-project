@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Driver;
 use App\Models\Ticket;
+use App\Models\Fine;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class TPoliceController extends Controller
 {
@@ -19,7 +22,7 @@ class TPoliceController extends Controller
         
             // TO DO
         // Retrieve the from where/when the driver departed 
-        // Return weather the driver has start it's journy from the bus station              [OK]
+        // Return weather the driver has start it's journy from the bus station              [OK DONE]
 
         $matchThese = ['driver_id' => $driver->id];
 
@@ -43,37 +46,42 @@ class TPoliceController extends Controller
         ]);
         
         $traffic = $request->user(); 
-        $validate['trafficpolice_id'] = $traffic->id;
+        $validate['traffic_police_id'] = $traffic->id;
 
         // TO DO
         // Create a fine (Fine table should have a foreign key to driver, tpolice)
-        // also [amount, account, location]
+        // also [amount, location]                                                         [OK DONE]                 
 
         $fine = Fine::create($validate);
 
         return response()->json([
             'Message' => '200 Successuly complited',
             'Fine' => $fine,
+            'Police id' => $traffic,
         ]);
 
     } 
     
     public function previousCrimeRecord(Request $request){
 
-        $validate = $request->validate([
+        $validate =  Validator::make($request->all(),[
             'driver_id' => 'required|integer', 
         ]);
-
-        // TO DO
-        // Retrieve all the fines the driver has paid
-
         
+        if ($validate->fails()) {
+            return response()->json(['Error'=>"Empty driver id!"]);
+        }
+         
+        // TO DO
+        // Retrieve all the fines the driver has paid and all the reports on him    [DONE]
+
+        $fine = DB::table('fines')->where('driver_id', $request->driver_id)->get(); 
 
         return response()->json([
             'Message' => '200 Successfuly',
-            
+            'record' => $fine
         ]);
 
     }
 
-}
+} 
