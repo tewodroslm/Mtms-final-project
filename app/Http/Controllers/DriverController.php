@@ -36,12 +36,17 @@ class DriverController extends Controller
             'driver_id' => 'required|integer',
             'canceled' => 'required'
         ]);
+
+        $errors = $validate->errors();
         
         if ($validate->fails()) {
-            return response()->json(['Error'=>"Error has occured during validation"]);
+            return response()->json([
+                'Error'=>"Error has occured during validation",
+                'error' => $errors->all(),
+            ]);
         }
         
-        $ticket = Ticket::create($validate);
+        $ticket = Ticket::create($request->all());
 
         return response([
             'Message' => 'Ticket created successfuly',

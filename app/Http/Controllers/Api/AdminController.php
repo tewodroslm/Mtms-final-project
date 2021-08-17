@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TrafficPolice;
+use Illuminate\Support\Facades\Validator;
 use App\Models\MenhariyaOfficer;
 
 class AdminController extends Controller
@@ -14,7 +15,7 @@ class AdminController extends Controller
 
      public function registerTrafficPolice(Request $request){
         
-        $validate = $request->validate([ 
+        $validate = $request->validate([
             'name' => 'required|string',
             'traffic_id' => 'required|integer|unique:traffic_police',
             'working_route' => 'string',  
@@ -22,7 +23,8 @@ class AdminController extends Controller
         ]);
 
         $validate['password'] = bcrypt($request->password);
-        
+
+                
         $trafficPolice = TrafficPolice::create($validate);
 
         $accessToken = $trafficPolice->createToken('authToken')->accessToken;
@@ -30,7 +32,8 @@ class AdminController extends Controller
         return response([
             'TrafficPolice' => $trafficPolice,
             'access_token' => $accessToken
-        ]);
+        ]);      
+        
 
      }
 
@@ -39,9 +42,9 @@ class AdminController extends Controller
      public function registerMenhariyaOfficer(Request $request){
         
         $validate = $request->validate([ 
-            'name' => 'required|string',
-            'traffic_id' => 'required|string',
+            'name' => 'required|string', 
             'working_route' => 'string',  
+            'email' => 'required|email',
             'password' => 'required|min:4|confirmed'
         ]);
 
@@ -49,7 +52,7 @@ class AdminController extends Controller
         
         $menhariyaOfficer = MenhariyaOfficer::create($validate);
 
-        $accessToken = $trafficPolice->createToken('authToken')->accessToken;
+        $accessToken = $menhariyaOfficer->createToken('authToken')->accessToken;
 
         return response([
             'MenhariyaOfficer' => $menhariyaOfficer,
