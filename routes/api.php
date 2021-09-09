@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\DriverController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\TPoliceController;
+use App\Http\Controllers\MenhariyaOfficerController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -28,6 +29,7 @@ Route::post("/register-driver", [AuthController::class, 'registerDriver']);
 Route::post("/login-driver", [AuthController::class, 'loginDriver']);
 
 Route::post("/login-tpolice", [AuthController::class, 'loginTraffic']);
+Route::post("/login-mofficer", [AuthController::class, 'menhariyaOfficerLogin']);
 
 // Done by driver
 Route::middleware('auth:api-drivers')->group(function (){
@@ -45,6 +47,14 @@ Route::middleware("auth:api-police")->group(function(){
     Route::post("/crime-record", [TPoliceController::class, 'previousCrimeRecord']);
 });
 
+// Done by M - officer
+Route::middleware("auth:api-mofficer")->group(function(){
+    Route::get("/all-driver", [MenhariyaOfficerController::class, 'getAllDriver']);
+    Route::post("/mocheckdriver", [MenhariyaOfficerController::class, 'checkDriver']);
+    Route::get("/total", [MenhariyaOfficerController::class, 'totalVehicle']);
+    Route::get("/departedfromhere", [MenhariyaOfficerController::class, 'departedVehichle']);
+    Route::get("/toCurrentStaion", [MenhariyaOfficerController::class, 'toCurrentStaion']);
+});
 
 // Done by admin
 

@@ -56,6 +56,10 @@ return [
             'driver' => 'passport',
             'provider' => 'polices'
         ],
+        'api-mofficer' => [
+            'driver' => 'passport',
+            'provider' => 'mofficer'
+        ]
     ],
 
     /*
@@ -90,7 +94,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\TrafficPolice::class,
         ],
-
+        'mofficer' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\MenhariyaOfficer::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',

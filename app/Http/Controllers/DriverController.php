@@ -25,9 +25,27 @@ class DriverController extends Controller
     
     ## validating the cnaceled boolean is creating an issue
 
+    public function latestTicket(Request $request){
+
+        $validate = $request->validate([
+            'licence' => 'required|string',
+        ]);
+
+        $driver = Driver::where('licence', $request->licence)->first();
+        
+       
+        $matchThese = ['driver_id' => $driver->id];
+
+        $lastTicket = Ticket::where($matchThese)->whereDate('created_at', date('Y-m-d'))->get();
+        return response()->json([
+            'Latest ticket' => $lastTicket,
+        ]);
+    }
+
     public function buyTicket(Request $request){
         
         //$driver = $request->user();
+        
         
         $validate = Validator::make($request->all(), [ 
             'starting_point' => 'required|string',
