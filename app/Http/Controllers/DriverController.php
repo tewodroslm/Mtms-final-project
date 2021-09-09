@@ -24,28 +24,7 @@ class DriverController extends Controller
 
     
     ## validating the cnaceled boolean is creating an issue
-
-    public function latestTicket(Request $request){
-
-        $validate = $request->validate([
-            'licence' => 'required|string',
-        ]);
-
-        $driver = Driver::where('licence', $request->licence)->first();
-        
-       
-        $matchThese = ['driver_id' => $driver->id];
-
-        $lastTicket = Ticket::where($matchThese)->whereDate('created_at', date('Y-m-d'))->get();
-        return response()->json([
-            'Latest ticket' => $lastTicket,
-        ]);
-    }
-
     public function buyTicket(Request $request){
-        
-        //$driver = $request->user();
-        
         
         $validate = Validator::make($request->all(), [ 
             'starting_point' => 'required|string',
@@ -63,11 +42,22 @@ class DriverController extends Controller
                 'error' => $errors->all(),
             ]);
         }
+
+        $matchThese = ['driver_id' => $request->driver_id];
+
+        $lastTicket = Ticket::where($matchThese)->latest()->first();
+        
+        if($lastTicket->canceled == 0){
+            return response([
+                'Message' => 'Cancle || finish your destination',
+                'lastTicket' => $lastTicket,
+            ]);
+        }        
         
         $ticket = Ticket::create($request->all());
 
         return response([
-            'Message' => 'Ticket created successfuly',
+            'Message' => 'Ticket created successfuly', 
             'Ticket' => $ticket,
         ]);
 
