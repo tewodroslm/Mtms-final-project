@@ -4,8 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use Laravel\Passport\HasApiTokens;
 
-class MenhariyaOfficer extends Model
+class MenhariyaOfficer extends User
 {
-    use HasFactory;
+    use HasFactory,  HasApiTokens;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'working_route', 
+        'password',
+    ];
 }

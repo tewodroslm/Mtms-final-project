@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Driver;
 use App\Models\Ticket;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Validator;
 
 class DriverController extends Controller
 {
@@ -24,11 +25,29 @@ class DriverController extends Controller
     
     ## validating the cnaceled boolean is creating an issue
 
+    public function latestTicket(Request $request){
+
+        $validate = $request->validate([
+            'licence' => 'required|string',
+        ]);
+
+        $driver = Driver::where('licence', $request->licence)->first();
+        
+       
+        $matchThese = ['driver_id' => $driver->id];
+
+        $lastTicket = Ticket::where($matchThese)->whereDate('created_at', date('Y-m-d'))->get();
+        return response()->json([
+            'Latest ticket' => $lastTicket,
+        ]);
+    }
+
     public function buyTicket(Request $request){
         
         //$driver = $request->user();
         
-        $validate = $request->validate([ 
+        
+        $validate = Validator::make($request->all(), [ 
             'starting_point' => 'required|string',
             'destination' => 'required|string',
             'amount' => 'required',
@@ -36,7 +55,16 @@ class DriverController extends Controller
             'canceled' => 'required'
         ]);
 
-        $ticket = Ticket::create($validate);
+        $errors = $validate->errors();
+        
+        if ($validate->fails()) {
+            return response()->json([
+                'Error'=>"Error has occured during validation",
+                'error' => $errors->all(),
+            ]);
+        }
+        
+        $ticket = Ticket::create($request->all());
 
         return response([
             'Message' => 'Ticket created successfuly',
@@ -55,7 +83,7 @@ class DriverController extends Controller
               ->update(['canceled' => 1]); 
 
         return response([
-            'Message' => 'Ticket updated successfully',
+            'Message' => 'Ticket canceled successfully',
             'Ticket' => $ticket,
         ]);
 

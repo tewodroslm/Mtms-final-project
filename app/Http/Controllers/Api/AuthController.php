@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request; 
 use App\Models\Driver;
 use App\Models\TrafficPolice;
+use App\Models\MenhariyaOfficer;
 use App\Models\User;
 use App\Models\Admin;
 
@@ -57,7 +58,7 @@ class AuthController extends Controller
 
         $admin = auth()->user(); 
 
-        $token = $admin->createToken('authToken')->accessToken;
+        $token = $admin->createToken('authToken', ['add-traffic-police', 'add-menhariya-officer'])->accessToken;
 
         return response()->json([
             'token' => $token,
@@ -121,7 +122,7 @@ class AuthController extends Controller
 
      public function loginTraffic(Request $request){
         $validate = $request->validate([
-            'traffic_id' => 'required|string',
+            'traffic_id' => 'required|integer',
             'password' => 'required'
         ]);
  
@@ -139,6 +140,28 @@ class AuthController extends Controller
             'access_token' => $accessToken
         ]);
     }
+    
+    // Menhariya officer login
+    public function menhariyaOfficerLogin(Request $request){
+        $cred = $validatedData = $request->validate([
+            'email' => 'email|required',
+            'password' => 'required'
+        ]);
+        $officer = MenhariyaOfficer::where('email', $request->email)->first();
+
+        if (!Hash::check($request->password, $officer->password)){
+
+            return response(['error' => 'Invalid credentials']);
+        }
+
+        $accessToken = $officer->createToken('authToken')->accessToken;
+
+        return response([
+            'Mofficer' => $officer, 
+            'access_token' => $accessToken
+        ]); 
+    }
+
 
 }
 

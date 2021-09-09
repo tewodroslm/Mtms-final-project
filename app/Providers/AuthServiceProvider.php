@@ -29,6 +29,12 @@ class AuthServiceProvider extends ServiceProvider
         if (! $this->app->routesAreCached()) {
             Passport::routes();
         }
+
+        Passport::tokensCan([
+            'add-traffic-police' => 'register traffic police',
+            'add-menhariya-officer' => 'register menhariya officer`',
+        ]);
+
         //
     }
 }
