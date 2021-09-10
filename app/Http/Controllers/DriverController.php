@@ -48,8 +48,8 @@ class DriverController extends Controller
         $lastTicket = Ticket::where($matchThese)->latest()->first();
         
         if($lastTicket->canceled == 0){
-            return response([
-                'Message' => 'Cancle || finish your destination',
+            return response()->json([
+                'Message' => 'Cancle || finish with your destination',
                 'lastTicket' => $lastTicket,
             ]);
         }        
