@@ -24,22 +24,23 @@ class AuthController extends Controller
             'password' => 'required|min:6|confirmed'
         ]);
 
-        $validated['password'] = bcrypt($request->password);
+        // $validated['password'] = bcrypt($request->password);
 
-        $userCreate = User::create($validated);
+        // $userCreate = User::create($validated);
 
-        $valAdmin= $request->validate([
-            'name' => 'string',
-            'email' => 'email|required'
-        ]);
+        // $valAdmin= $request->validate([
+        //     'name' => 'string',
+        //     'email' => 'email|required'
+        // ]);
 
-        $admin = Admin::create($valAdmin); 
+        // $admin = Admin::create($valAdmin); 
 
-        $accessToken = $userCreate->createToken('authToken')->accessToken;
+        // $accessToken = $userCreate->createToken('authToken')->accessToken;
 
         return response()->json([
-            'Admin'=>$admin,
-            'access_token' => $accessToken
+            // 'Admin'=>$admin,
+            // 'access_token' => $accessToken
+            'Works' => "Testing... works"
         ]);
 
     }
