@@ -18,11 +18,11 @@ class AuthController extends Controller
      // Add admin (uses the User model for auth and other stuff)
     public function addAdmin(Request $request){
 
-        $validated = $request->validate([
-            'name' => 'string',
-            'email' => 'email|required',
-            'password' => 'required|min:6|confirmed'
-        ]);
+        // $validated = $request->validate([
+        //     'name' => 'string',
+        //     'email' => 'email|required',
+        //     'password' => 'required|min:6|confirmed'
+        // ]);
 
         // $validated['password'] = bcrypt($request->password);
 
