@@ -22,7 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/add-admin", [AuthController::class, 'addAdmin']);
+Route::post("/add-admin", [AuthController::class, 'addAdmin']);
 Route::post("/login-admin", [AuthController::class, 'adminLogin']);
 
 Route::post("/register-driver", [AuthController::class, 'registerDriver']);
