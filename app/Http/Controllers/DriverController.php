@@ -87,6 +87,7 @@ class DriverController extends Controller
         $validate = $request->validate([  
             'amount' => 'integer',
             'driver_id' => 'integer',
+            'bank_account' => 'string',
         ]);
         
         $payment = Payment::create($validate);

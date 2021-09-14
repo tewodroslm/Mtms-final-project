@@ -11,5 +11,6 @@ class Payment extends Model
     protected $fillable = [
         'driver_id',
         'amount',
+        'bank_account',
     ];
 }
