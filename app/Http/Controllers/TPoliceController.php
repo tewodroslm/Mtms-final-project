@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Driver;
 use App\Models\Ticket;
 use App\Models\Fine;
+use App\Models\Report;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -82,6 +83,35 @@ class TPoliceController extends Controller
             'record' => $fine
         ]);
 
+    }
+
+    public function getReport(Request $request){
+        $validate = $request->validate([
+            'platenumber' => 'required|string'
+        ]);
+        
+        $reports = Report::where('platenumber', $request->platenumber)->get();
+
+        return response()->json([
+            'Message' => '200 success',
+            'reports' =>  $reports
+        ]);
+    }
+
+    // Report Driver
+    public function reportDriver(Request $request){
+        $validate = $request->validate([
+            'platenumber' => 'required|string',
+            'place' => 'required|string',
+            'traffic_police_id' => 'required',
+            'reason' => 'required|string'
+        ]);
+
+        $fine = Report::create($request->all());                
+        return response()->json([
+            'Message' => 'success',
+            'report' => $fine
+        ]);
     }
 
 } 

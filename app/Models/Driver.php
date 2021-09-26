@@ -22,6 +22,7 @@ class Driver extends User
         'driver_type',
         'car_owner',
         'password',
+        'car_plate_number'
     ];
  
     public function fines(){

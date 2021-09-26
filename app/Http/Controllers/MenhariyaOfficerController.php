@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Driver;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Ticket;
+use App\Models\Report;
 
 
 class MenhariyaOfficerController extends Controller
@@ -30,6 +31,19 @@ class MenhariyaOfficerController extends Controller
             'list ticket' => [ $ticket]
         ]);
 
+    }
+
+    public function getReport(Request $request){
+        $validate = $request->validate([
+            'platenumber' => 'required|string'
+        ]);
+        
+        $reports = Report::where('platenumber', $request->platenumber)->get();
+
+        return response()->json([
+            'Message' => '200 success',
+            'reports' =>  $reports
+        ]);
     }
 
     public function getAllDriver(){

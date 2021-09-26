@@ -82,6 +82,18 @@ class DriverController extends Controller
 
     }
 
+    public function getUnCanceledTicket(Request $request){
+
+        $matchThese = ['driver_id' => $request->driver_id];
+
+        $lastTicket = Ticket::where($matchThese)->latest()->first();
+        return response([
+            'Message' => 'Ticket created successfuly', 
+            'Ticket' => $lastTicket,
+        ]);
+
+    }
+
     public function payFine(Request $request){
         
         $validate = $request->validate([  

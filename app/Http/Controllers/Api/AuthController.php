@@ -76,7 +76,8 @@ class AuthController extends Controller
             'working_route' => 'string',
             'driver_type' => 'integer',
             'car_owner' => 'boolean',
-            'password' => 'required|min:4|confirmed'
+            'password' => 'required|min:4|confirmed',
+            'car_plate_number' => 'required'
         ]);
 
         $validate['password'] = bcrypt($request->password);

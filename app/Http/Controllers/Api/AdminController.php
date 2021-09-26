@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\TrafficPolice;
+use App\Models\Driver;
 use Illuminate\Support\Facades\Validator;
 use App\Models\MenhariyaOfficer;
 
@@ -61,4 +62,29 @@ class AdminController extends Controller
 
      }
 
+     // get mofficers
+     public function mOfficers(Request $request){
+         $mOfficers = MenhariyaOfficer::all();
+         return response([
+             'Status' => 'Success',
+             'mofficers' => $mOfficers
+         ]);
+     }
+
+     // get Tpolices
+     public function tPolices(Request $request){
+         $tpolices = TrafficPolice::all();
+         return response([
+            'Status' => 'Success',
+            'tpolices' => $tpolices
+         ]);
+     }
+
+     public function driversAll(Request $request){
+         $drivers = Driver::all();
+         return response([
+             'Status' => 'Success',
+             'drivers' => $drivers
+         ]);
+     }
 }

@@ -33,7 +33,7 @@ Route::post("/login-mofficer", [AuthController::class, 'menhariyaOfficerLogin'])
 
 // Done by driver
 Route::middleware('auth:api-drivers')->group(function (){
-    Route::get("/testDriver", [DriverController::class, 'testDriver']);
+    Route::post("/get-uncanceled-ticket", [DriverController::class, 'getUnCanceledTicket']);
     Route::post("/get-ticket", [DriverController::class, 'buyTicket']);
     Route::post("/cancel-ticket", [DriverController::class, 'cancelTicket']);
     Route::post("/pay-fine", [DriverController::class, 'payFine']);
@@ -45,6 +45,8 @@ Route::middleware("auth:api-police")->group(function(){
     Route::post("/check-driver", [TPoliceController::class, 'checkDriver']);
     Route::post("/fine-driver", [TPoliceController::class, 'fineDriver']);
     Route::post("/crime-record", [TPoliceController::class, 'previousCrimeRecord']);
+    Route::post("/report", [TPoliceController::class, 'reportDriver']);
+    Route::post("/get-reports", [TPoliceController::class, 'getReport']);
 });
 
 // Done by M - officer
@@ -54,6 +56,7 @@ Route::middleware("auth:api-mofficer")->group(function(){
     Route::get("/total", [MenhariyaOfficerController::class, 'totalVehicle']);
     Route::get("/departedfromhere", [MenhariyaOfficerController::class, 'departedVehichle']);
     Route::get("/toCurrentStaion", [MenhariyaOfficerController::class, 'toCurrentStaion']);
+    Route::post("/get-reports", [MenhariyaOfficerController::class, 'getReport']);
 });
 
 // Done by admin
@@ -63,6 +66,9 @@ Route::middleware('auth:api')->group(function (){
     Route::middleware(['scope:add-traffic-police'])->post("/register-trafficpolice", [AdminController::class, 'registerTrafficPolice']);
 
     Route::middleware(['scope:add-menhariya-officer'])->post("/register-menhariyaOfficer", [AdminController::class, 'registerMenhariyaOfficer']);
+    Route::middleware(['scope:add-menhariya-officer'])->get("/get-mofficers", [AdminController::class, 'mOfficers']);
+    Route::middleware(['scope:add-menhariya-officer'])->get("/get-polices", [AdminController::class, 'tPolices']);
+    Route::middleware(['scope:add-menhariya-officer'])->get("/get-drivers", [AdminController::class, 'driversAll']);
 });  
 
     // Route::middleware(['scope:admin,Ar2,Ar1'])->get('users', 'AddAdminUsers@getUsers');
