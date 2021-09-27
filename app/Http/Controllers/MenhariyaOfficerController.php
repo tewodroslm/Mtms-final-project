@@ -7,7 +7,7 @@ use App\Models\Driver;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Ticket;
 use App\Models\Report;
-
+use App\Models\Payment;
 
 class MenhariyaOfficerController extends Controller
 {
@@ -97,6 +97,32 @@ class MenhariyaOfficerController extends Controller
                 'Error' => 'Mof location not known' 
             ]);
         }        
+    }
+
+    public function updateStatus(Request $request){
+        $validate = $request->validate([
+            'licence' => 'required|string',
+        ]);
+
+        $driver = Driver::where('licence', $request->licence)->first();
+        $driver->status = 'suspended';
+        $driver->save();
+        return response()->json([
+            'status' => 'updated'
+        ]);
+    }
+
+
+    public function dPayments(Request $request){
+        $validate = $request->validate([
+            'licence' => 'required|string',
+        ]);
+
+        $driver = Driver::where('licence', $request->licence)->first();
+        $payments = Payment::where('driver_id', $driver->id)->get();
+        return response()->json([
+            'payments' => $payments, 
+        ]);
     }
     
 }

@@ -57,6 +57,8 @@ Route::middleware("auth:api-mofficer")->group(function(){
     Route::get("/departedfromhere", [MenhariyaOfficerController::class, 'departedVehichle']);
     Route::get("/toCurrentStaion", [MenhariyaOfficerController::class, 'toCurrentStaion']);
     Route::post("/get-reports", [MenhariyaOfficerController::class, 'getReport']);
+    Route::post("/suspend", [MenhariyaOfficerController::class, 'updateStatus']);
+    Route::post("/payments", [MenhariyaOfficerController::class, 'dPayments']);
 });
 
 // Done by admin

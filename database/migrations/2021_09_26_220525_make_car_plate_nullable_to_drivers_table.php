@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCarPlateNumberToDriversTable extends Migration
+class MakeCarPlateNullableToDriversTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class AddCarPlateNumberToDriversTable extends Migration
     {
         Schema::table('drivers', function (Blueprint $table) {
             //
-            $table->string('car_plate_number')->nullable();
+            $table->string('car_plate_number')->nullable()->change();
         });
     }
 
